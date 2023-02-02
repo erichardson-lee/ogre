@@ -1,7 +1,7 @@
 import { makeOgre } from "./ogre.ts";
-import {} from "https://deno.land/std@0.173.0/testing/asserts.ts";
+import { assertRejects } from "https://deno.land/std@0.173.0/testing/asserts.ts";
 
-Deno.test("Out of order layer dependencies should throw", async () => {
+Deno.test("Adding layers out of dependency order should not throw", async () => {
   const shrek = makeOgre({ name: "Shrek", hideShrek: true });
 
   const _b = shrek.addLayer({
@@ -18,4 +18,37 @@ Deno.test("Out of order layer dependencies should throw", async () => {
   );
 
   await shrek.start();
+});
+
+Deno.test("Looped layer dependencies should throw", () => {
+  const shrek = makeOgre({ name: "Shrek", hideShrek: true });
+
+  const _a = shrek.addLayer({
+    id: "a",
+    init: () => void 0,
+    //@ts-ignore force a to depend on b
+    dependsOn: [{ id: "b" }],
+  });
+
+  const _b = shrek.addLayer({
+    id: "b",
+    init: () => void 0,
+    //@ts-ignore force b to depend on a
+    dependsOn: [{ id: "a" }],
+  });
+
+  assertRejects(() => shrek.start());
+});
+
+Deno.test("Non Existant layer dependencies should throw", () => {
+  const shrek = makeOgre({ name: "Shrek", hideShrek: true });
+
+  const _a = shrek.addLayer({
+    id: "a",
+    init: () => void 0,
+    //@ts-ignore force a to depend on b
+    dependsOn: [{ id: "b" }],
+  });
+
+  assertRejects(() => shrek.start());
 });

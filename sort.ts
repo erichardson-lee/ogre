@@ -40,6 +40,9 @@ export function sort<D extends { id: string; dependencies: string[] }>(
   for (const value of data.values()) {
     setupNodeIfNotExists(value.id);
     for (const dep of value.dependencies) {
+      if (!data.has(dep)) {
+        throw new Error(`Dependency not found '${dep} for layer '${value.id}'`);
+      }
       setupNodeIfNotExists(dep);
       nodes.get(dep)?.afters.push(value.id);
     }
