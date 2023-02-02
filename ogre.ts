@@ -1,4 +1,5 @@
 import { getLogger, Logger } from "https://deno.land/std@0.175.0/log/mod.ts";
+import { sort } from "./sort.ts";
 
 type MakeOgreCfg = {
   name: string;
@@ -77,7 +78,9 @@ export function makeOgre(
 
       logger.info("Starting Ogre " + name + "...");
 
-      for (const layer of layers.values()) {
+      const sortedLayers = sort(layers);
+
+      for (const layer of sortedLayers) {
         logger.debug(
           `Starting layer ${layer.id} [${layer.dependencies.join(",")}]`,
         );
@@ -100,8 +103,6 @@ export function makeOgre(
         layer.data = await layer.init(deps);
         layer.initalized = true;
       }
-
-      return await Promise.resolve();
     },
   };
 }
