@@ -1,1 +1,1 @@
-export * from "./ogre.ts";
+export * from "./lib/ogre.ts";
