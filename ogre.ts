@@ -1,5 +1,6 @@
 import { getLogger, Logger } from "https://deno.land/std@0.175.0/log/mod.ts";
 import { sort } from "./sort.ts";
+import { SHREK } from "./shrek.ts";
 
 type MakeOgreCfg = {
   name: string;
@@ -24,29 +25,7 @@ type Layer<Data, ID extends string, Dependencies extends AnyLayer[]> = {
 export function makeOgre(
   { name, hideShrek = false, logger = getLogger() }: MakeOgreCfg,
 ) {
-  if (!hideShrek) {
-    logger.info(
-      [
-        "                                        ",
-        "  ⢀⡴⠑⡄       ⣀⣀⣤⣤⣤⣀⡀                  ",
-        "  ⠸⡇ ⠿⡀   ⣀⡴⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀              ",
-        "      ⠑⢄⣠⠾⠁⣀⣄⡈⠙⣿⣿⣿⣿⣿⣿⣿⣿⣆             ",
-        "      ⢀⡀⠁  ⠈⠙⠛⠂⠈⣿⣿⣿⣿⣿⠿⡿⢿⣆            ",
-        "     ⢀⡾⣁⣀ ⠴⠂⠙⣗⡀ ⢻⣿⣿⠭⢤⣴⣦⣤⣹   ⢀⢴⣶⣆    ",
-        "    ⢀⣾⣿⣿⣿⣷⣮⣽⣾⣿⣥⣴⣿⣿⡿⢂⠔⢚⡿⢿⣿⣦⣴⣾⠁⠸⣼⡿   ",
-        "   ⢀⡞⠁⠙⠻⠿⠟⠉ ⠛⢹⣿⣿⣿⣿⣿⣌⢤⣼⣿⣾⣿⡟⠉         ",
-        "   ⣾⣷⣶⠇  ⣤⣄⣀⡀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇          ",
-        "   ⠉⠈⠉  ⢦⡈⢻⣿⣿⣿⣶⣶⣶⣶⣤⣽⡹⣿⣿⣿⣿⡇          ",
-        "         ⠉⠲⣽⡻⢿⣿⣿⣿⣿⣿⣿⣷⣜⣿⣿⣿⡇           ",
-        "          ⢸⣿⣿⣷⣶⣮⣭⣽⣿⣿⣿⣿⣿⣿⣿            ",
-        "        ⣀⣀⣈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇            ",
-        "        ⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃             ",
-        "         ⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁              ",
-        "           ⠉⠛⠻⠿⠿⠿⠿⠛⠉                  ",
-        "                                        ",
-      ].join("\n"),
-    );
-  }
+  if (!hideShrek) logger.info(SHREK);
   logger.info("Creating new Ogre named " + name + "...");
 
   const layers = new Map<string, AnyLayer & { initalized?: true }>();
